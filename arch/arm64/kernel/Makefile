@@ -42,10 +42,6 @@ ifdef CONFIG_DEBUG_KERNEL
 arm64-obj-$(CONFIG_HW_PERF_EVENTS)	+= perf_trace_counters.o perf_trace_user.o
 endif
 
-ifdef CONFIG_DEBUG_FS
-arm64-obj-$(CONFIG_HW_PERF_EVENTS)	+= perf_debug.o
-endif
-
 arm64-obj-$(CONFIG_HAVE_HW_BREAKPOINT)	+= hw_breakpoint.o
 arm64-obj-$(CONFIG_CPU_PM)		+= sleep.o suspend.o
 arm64-obj-$(CONFIG_CPU_IDLE)		+= cpuidle.o
