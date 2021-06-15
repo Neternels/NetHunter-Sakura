@@ -8956,9 +8956,11 @@ static int fg_probe(struct platform_device *pdev)
 
 	return rc;
 
-cancel_work:
+ power_supply_unregister:
+	power_supply_unregister(chip->bms_psy);
+ cancel_work:
 	fg_cancel_all_works(chip);
-of_init_fail:
+ of_init_fail:
 	mutex_destroy(&chip->rslow_comp.lock);
 	mutex_destroy(&chip->rw_lock);
 	mutex_destroy(&chip->cyc_ctr.lock);
