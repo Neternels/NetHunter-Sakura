@@ -68,6 +68,7 @@
 #include <linux/wireless.h>
 #include <net/cfg80211.h>
 #include <vos_sched.h>
+#include <disable.h>
 
 #define WEXT_CSCAN_HEADER               "CSCAN S\x01\x00\x00S\x00"
 #define WEXT_CSCAN_HEADER_SIZE          12
@@ -839,7 +840,7 @@ int __iw_set_scan(struct net_device *dev, struct iw_request_info *info,
    }
 
    /* push addIEScan in scanRequset if exist */
-   if (pHddCtx->scan_info.scanAddIE.addIEdata && 
+   if (pHddCtx->scan_info.scanAddIE.addIEdata != NULL && 
        pHddCtx->scan_info.scanAddIE.length)
    { 
        scanRequest.uIEFieldLen = pHddCtx->scan_info.scanAddIE.length;
@@ -1287,7 +1288,7 @@ int iw_set_cscan(struct net_device *dev, struct iw_request_info *info,
         }
 
         /* push addIEScan in scanRequset if exist */
-        if (pHddCtx->scan_info.scanAddIE.addIEdata && 
+        if (pHddCtx->scan_info.scanAddIE.addIEdata != NULL && 
             pHddCtx->scan_info.scanAddIE.length)
         {
             scanRequest.uIEFieldLen = pHddCtx->scan_info.scanAddIE.length;

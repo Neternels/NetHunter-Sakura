@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2012-2019 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -59,6 +59,7 @@
 #include <csrApi.h>
 #include <pmcApi.h>
 #include <wlan_hdd_misc.h>
+#include <disable.h>
 
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
 static void cbNotifySetRoamPrefer5GHz(hdd_context_t *pHddCtx, unsigned long NotifyId)
@@ -1108,14 +1109,6 @@ REG_TABLE_ENTRY g_registry_table[] =
                  CFG_LFR_MAWC_FEATURE_ENABLED_MIN,
                  CFG_LFR_MAWC_FEATURE_ENABLED_MAX,
                  NotifyIsMAWCIniFeatureEnabled, 0 ),
-
-   /* flag to turn ON/OFF Motion assistance for Legacy Fast Roaming */
-   REG_VARIABLE( CFG_PER_BSSID_BLACKLIST_TIMEOUT_NAME, WLAN_PARAM_Integer,
-                 hdd_config_t, bssid_blacklist_timeout,
-                 VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
-                 CFG_PER_BSSID_BLACKLIST_TIMEOUT_DEFAULT,
-                 CFG_PER_BSSID_BLACKLIST_TIMEOUT_MIN,
-                 CFG_PER_BSSID_BLACKLIST_TIMEOUT_MAX ),
 
 #endif // FEATURE_WLAN_LFR
 
@@ -4041,30 +4034,6 @@ REG_VARIABLE( CFG_EXTSCAN_ENABLE, WLAN_PARAM_Integer,
                       VAR_FLAGS_NONE,
                       (void *)CFG_ENABLE_DEFAULT_SAP_DEFAULT),
 
-#ifdef WLAN_FEATURE_SAE
-  REG_VARIABLE(CFG_IS_SAE_ENABLED_NAME, WLAN_PARAM_Integer,
-               hdd_config_t, is_sae_enabled,
-               VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
-               CFG_IS_SAE_ENABLED_DEFAULT,
-               CFG_IS_SAE_ENABLED_MIN,
-               CFG_IS_SAE_ENABLED_MAX),
-
-  REG_VARIABLE(CFG_ENABLE_SAE_FOR_SAP_NAME, WLAN_PARAM_Integer,
-               hdd_config_t, enable_sae_for_sap,
-               VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
-               CFG_ENABLE_SAE_FOR_SAP_DEFAULT,
-               CFG_ENABLE_SAE_FOR_SAP_MIN,
-               CFG_ENABLE_SAE_FOR_SAP_MAX),
-#endif
-
-#ifdef FEATURE_WLAN_SW_PTA
-  REG_VARIABLE(CFG_SW_PTA_ENABLE_NAME, WLAN_PARAM_Integer,
-               hdd_config_t, is_sw_pta_enabled,
-               VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
-               CFG_SW_PTA_ENABLE_DEFAULT,
-               CFG_SW_PTA_ENABLE_MIN,
-               CFG_SW_PTA_ENABLE_MAX)
-#endif
 };
 
 /*
@@ -4124,8 +4093,8 @@ static char *i_trim(char *str)
 
    /* Find the first non white-space*/
    for (ptr = str; i_isspace(*ptr); ptr++);
-      if (*ptr == '\0')
-         return str;
+   if (*ptr == '\0')
+      return str;
 
    /* This is the new start of the string*/
    str = ptr;
@@ -4133,8 +4102,8 @@ static char *i_trim(char *str)
    /* Find the last non white-space */
    ptr += strlen(ptr) - 1;
    for (; ptr != str && i_isspace(*ptr); ptr--);
-      /* Null terminate the following character */
-      ptr[1] = '\0';
+   /* Null terminate the following character */
+   ptr[1] = '\0';
 
    return str;
 }
@@ -4281,41 +4250,6 @@ config_exit:
    return vos_status;
 }
 
-#ifdef WLAN_FEATURE_SAE
-static void hdd_cfg_print_sae(hdd_context_t *hdd_ctx)
-{
-   hddLog(LOG2, "Name = [%s] value = [%u]", CFG_IS_SAE_ENABLED_NAME,
-          hdd_ctx->cfg_ini->is_sae_enabled);
-}
-
-static void hdd_cfg_print_sae_sap(hdd_context_t *hdd_ctx)
-{
-   hddLog(LOG2, "Name = [%s] value = [%u]",
-          CFG_ENABLE_SAE_FOR_SAP_NAME,
-          hdd_ctx->cfg_ini->enable_sae_for_sap);
-}
-#else
-static void hdd_cfg_print_sae(hdd_context_t *hdd_ctx)
-{
-}
-
-static void hdd_cfg_print_sae_sap(hdd_context_t *hdd_ctx)
-{
-}
-#endif
-
-#ifdef FEATURE_WLAN_SW_PTA
-static void hdd_cfg_print_sw_pta(hdd_context_t* hdd_ctx)
-{
-   hddLog(LOG2, "Name = [%s] value = [%u]",
-          CFG_SW_PTA_ENABLE_NAME,
-          hdd_ctx->cfg_ini->is_sw_pta_enabled);
-}
-#else
-static void hdd_cfg_print_sw_pta(hdd_context_t* hdd_ctx)
-{
-}
-#endif
 
 static void print_hdd_cfg(hdd_context_t *pHddCtx)
 {
@@ -4777,9 +4711,6 @@ static void print_hdd_cfg(hdd_context_t *pHddCtx)
             "Name = [%s] Value = [%s] ",
             CFG_ENABLE_DEFAULT_SAP,
             pHddCtx->cfg_ini->enabledefaultSAP);
-    hdd_cfg_print_sae(pHddCtx);
-    hdd_cfg_print_sae_sap(pHddCtx);
-    hdd_cfg_print_sw_pta(pHddCtx);
 }
 
 

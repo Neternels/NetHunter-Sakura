@@ -73,6 +73,7 @@
 #include "sapInternal.h"
 #ifdef WLAN_FEATURE_AP_HT40_24G
 #include "vos_utils.h"
+#include <disable.h>
 #endif
 
 /*----------------------------------------------------------------------------
@@ -650,7 +651,7 @@ eHalStatus sapCheckHT40SecondaryIsNotAllowed(ptSapContext psapCtx)
 
     for (i = 0; i < unsafeChannelCount; i++)
     {
-        if ((psapCtx->sap_sec_chan == unsafeChannelList[i]))
+        if (psapCtx->sap_sec_chan == unsafeChannelList[i])
         {
             VOS_TRACE(VOS_MODULE_ID_SAP, VOS_TRACE_LEVEL_INFO,
                 FL("Unsafe Channel %d SAP Secondary Channel: %d"),

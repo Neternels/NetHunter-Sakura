@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2017, 2020 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2012-2017 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -63,6 +63,7 @@
 
 #ifdef WLAN_FEATURE_LFR_MBB
 #include "lim_mbb.h"
+#include <disable.h>
 #endif
 
 static void limHandleSmeJoinResult(tpAniSirGlobal, tSirResultCodes, tANI_U16,tpPESession);
@@ -1200,8 +1201,6 @@ limFillAssocIndParams(tpAniSirGlobal pMac, tpLimMlmAssocInd pAssocInd,
     //pSirSmeAssocInd->staId = psessionEntry->staId;
     // Fill in authType
     pSirSmeAssocInd->authType = pAssocInd->authType;
-    /* Fill in rsn_akm_type */
-    pSirSmeAssocInd->akm_type = pAssocInd->akm_type;
     // Fill in ssId
     vos_mem_copy((tANI_U8*)&pSirSmeAssocInd->ssId,
                  (tANI_U8 *) &(pAssocInd->ssId), pAssocInd->ssId.length + 1);
@@ -1242,7 +1241,6 @@ limFillAssocIndParams(tpAniSirGlobal pMac, tpLimMlmAssocInd pAssocInd,
         pSirSmeAssocInd->HTCaps = pAssocInd->HTCaps;
     if (pAssocInd->VHTCaps.present)
         pSirSmeAssocInd->VHTCaps = pAssocInd->VHTCaps;
-    pSirSmeAssocInd->is_sae_authenticated = pAssocInd->is_sae_authenticated;
 } /*** end limAssocIndSerDes() ***/
 
 
@@ -2584,13 +2582,7 @@ void limProcessBtAmpApMlmAddStaRsp( tpAniSirGlobal pMac, tpSirMsgQ limMsgQ,tpPES
      * 2) PE receives eWNI_SME_ASSOC_CNF from SME
      * 3) BTAMP-AP sends Re/Association Response to BTAMP-STA
      */
-    if (eSIR_SUCCESS != limSendMlmAssocInd(pMac, pStaDs, psessionEntry))
-        limRejectAssociation(pMac, pStaDs->staAddr,
-                 pStaDs->mlmStaContext.subType,
-                 true, pStaDs->mlmStaContext.authType,
-                 pStaDs->assocId, true,
-                 (tSirResultCodes) eSIR_MAC_UNSPEC_FAILURE_STATUS,
-                 psessionEntry);
+    limSendMlmAssocInd(pMac, pStaDs, psessionEntry);
     // fall though to reclaim the original Add STA Response message
 end:
     if( 0 != limMsgQ->bodyptr )

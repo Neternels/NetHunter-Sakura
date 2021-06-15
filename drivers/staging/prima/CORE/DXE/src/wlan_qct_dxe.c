@@ -65,6 +65,7 @@ when           who        what, where, why
 #include "wlan_qct_dxe_i.h"
 #include "wlan_qct_pal_device.h"
 #include "vos_api.h"
+#include <disable.h>
 
 /*----------------------------------------------------------------------------
  * Local Definitions
@@ -3214,16 +3215,8 @@ static void dxeRXISR
       return;         
    }
 
-   status = wpalReadRegister(WLANDXE_INT_SRC_RAW_ADDRESS,
+   wpalReadRegister(WLANDXE_INT_SRC_RAW_ADDRESS,
                                   &intSrc);
-   if(eWLAN_PAL_STATUS_SUCCESS != status)
-   {
-      status = wpalEnableInterrupt(DXE_INTERRUPT_RX_READY);
-      if(eWLAN_PAL_STATUS_SUCCESS != status)
-          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                   "dxeISR enable rx ready interrupt fail");
-      return;
-   }
    /* Note: intSrc which holds the INT_SRC_RAW_ADDRESS reg value
       While debugging crash dump convert to power of 2 for channel type */
    DXTRACE(dxeTrace(intSrc, TRACE_RXINT_STATE, TRACE_WLANDXE_VAR_DISABLE));
@@ -4626,7 +4619,7 @@ void dxeTraceInit(void)
   @  Return
       NONE
 ===========================================================================*/
-void dxeTrace(v_U8_t chan, v_U8_t code, v_U32_t data)
+void __maybe_unused dxeTrace(v_U8_t chan, v_U8_t code, v_U32_t data)
 {
     pdxeTraceRecord rec = NULL;
     unsigned long flags;
@@ -4826,8 +4819,7 @@ void *WLANDXE_Open
     * Init State is
     *    Clear TX Enable
     *    RING EMPTY STATE */
-   smsmInitState = wpalNotifySmsm(WPAL_SMSM_WLAN_TX_ENABLE |
-                                  WPAL_SMSM_WLAN_TX_RINGS_EMPTY,
+   smsmInitState = wpalNotifySmsm(WPAL_SMSM_WLAN_TX_ENABLE,
                                   WPAL_SMSM_WLAN_TX_RINGS_EMPTY);
    if(0 != smsmInitState)
    {

@@ -59,6 +59,7 @@
 #include "sapInternal.h"
 #include  "wlan_hdd_trace.h"
 #include "vos_diag_core_event.h"
+#include <disable.h>
 /*--------------------------------------------------------------------------- 
   Preprocessor definitions and constants
   -------------------------------------------------------------------------*/ 
@@ -1853,7 +1854,7 @@ VOS_STATUS hdd_softap_rx_packet_cbk( v_VOID_t *vosContext,
                  "%s: Failure returning vos pkt", __func__);
    }
    
-   hdd_fill_last_rx(pAdapter);
+   pAdapter->dev->last_rx = jiffies;
 
    return status;   
 }

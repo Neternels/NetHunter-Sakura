@@ -29,8 +29,9 @@
 #include "vos_types.h"
 #include "wlan_hdd_trace.h"
 #include "wlan_hdd_main.h"
+#include <disable.h>
 
-static tANI_U8* hddTraceGetEventString(tANI_U32 code)
+static tANI_U8 __maybe_unused * hddTraceGetEventString(tANI_U32 code)
 {
     switch(code)
     {

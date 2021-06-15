@@ -39,6 +39,7 @@
   Include files
   ----------------------------------------------------------------------------*/
 #include <wlan_hdd_dp_utils.h>
+#include <disable.h>
 
 /**-----------------------------------------------------------------------------
   Preprocessor definitions and constants
@@ -79,7 +80,7 @@ VOS_STATUS hdd_list_remove_front( hdd_list_t *pList, hdd_list_node_t **ppNode )
 {
    struct list_head * listptr;
 
-   if (!pList->count)
+   if ( list_empty( &pList->anchor ) )
    {
       return VOS_STATUS_E_EMPTY;
    }
@@ -96,7 +97,7 @@ VOS_STATUS hdd_list_remove_back( hdd_list_t *pList, hdd_list_node_t **ppNode )
 {
    struct list_head * listptr;
 
-   if (!pList->count)
+   if ( list_empty( &pList->anchor ) )
    {
       return VOS_STATUS_E_EMPTY;
    }
