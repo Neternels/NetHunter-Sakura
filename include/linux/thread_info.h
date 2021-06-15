@@ -9,6 +9,7 @@
 
 #include <linux/types.h>
 #include <linux/bug.h>
+#include <linux/restart_block.h>
 #include <linux/errno.h>
 
 struct timespec;
