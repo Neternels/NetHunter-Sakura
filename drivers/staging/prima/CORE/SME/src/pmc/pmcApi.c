@@ -49,7 +49,6 @@
 #include "wlan_qct_wda.h"
 #include "limSessionUtils.h"
 #include "csrInsideApi.h"
-#include <disable.h>
 
 extern void pmcReleaseCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand );
 
@@ -382,7 +381,7 @@ eHalStatus pmcClose (tHalHandle hHal)
 ******************************************************************************/
 eHalStatus pmcSignalPowerEvent (tHalHandle hHal, tPmcPowerEvent event)
 {
-    tpAniSirGlobal __maybe_unused pMac = PMAC_STRUCT(hHal);
+    tpAniSirGlobal pMac = PMAC_STRUCT(hHal);
 #ifndef GEN6_ONWARDS
     tSirMacHTMIMOPowerSaveState  htMimoPowerSaveState;
 #endif

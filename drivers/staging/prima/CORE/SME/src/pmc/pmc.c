@@ -48,7 +48,6 @@
 #include "wlan_qct_wda.h"
 #include "wlan_ps_wow_diag.h"
 #include "csrInsideApi.h"
-#include <disable.h>
 
 static void pmcProcessDeferredMsg( tpAniSirGlobal pMac );
 
@@ -1605,7 +1604,7 @@ eHalStatus pmcRequestEnterWowlState(tHalHandle hHal, tpSirSmeWowlEnterParams wow
     pmcLog(pMac, LOG1, FL("Enter. PMC State is %d"),pMac->pmc.pmcState);
 
    /* Incase of SAP send command directly */
-   if (pSessionEntry->operMode == BSS_OPERATIONAL_MODE_AP)
+   if ((pSessionEntry->operMode == BSS_OPERATIONAL_MODE_AP))
    {
        if (pmcIssueCommand(hHal, eSmeCommandEnterWowl, wowlEnterParams,
             sizeof(tSirSmeWowlEnterParams), FALSE) != eHAL_STATUS_SUCCESS)

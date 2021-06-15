@@ -74,7 +74,6 @@
 #endif
 #ifdef WLAN_FEATURE_LFR_MBB
 #include "csr_roam_mbb.h"
-#include <disable.h>
 #endif
 
 #define WLAN_FEATURE_NEIGHBOR_ROAMING_DEBUG 1
@@ -1867,7 +1866,7 @@ static VOS_STATUS csrNeighborRoamHandleEmptyScanResult(tpAniSirGlobal pMac)
 {
     VOS_STATUS  vosStatus = VOS_STATUS_SUCCESS;
     tpCsrNeighborRoamControlInfo    pNeighborRoamInfo = &pMac->roam.neighborRoamInfo;
-    eHalStatus __maybe_unused status = eHAL_STATUS_SUCCESS;
+    eHalStatus  status = eHAL_STATUS_SUCCESS;
 #ifdef FEATURE_WLAN_LFR
     tANI_BOOLEAN performPeriodicScan =
         (pNeighborRoamInfo->cfgParams.emptyScanRefreshPeriod) ? TRUE : FALSE;
@@ -3815,9 +3814,18 @@ VOS_STATUS csrNeighborRoamTransitToCFGChanScan(tpAniSirGlobal pMac)
     tpCsrChannelInfo    currChannelListInfo;
     tANI_U8   scanChannelList[WNI_CFG_VALID_CHANNEL_LIST_LEN];
     int       outputNumOfChannels = 0;
-#ifdef FEATURE_WLAN_LFR
     tANI_U32 sessionId = pNeighborRoamInfo->csrSessionId;
-#endif
+    VOS_STATUS vos_status;
+
+    vos_status = WLANTL_updateSpoofMacAddr(pMac->roam.gVosContext,
+                  (v_MACADDR_t*)&pMac->roam.spoof_mac_addr,
+                  (v_MACADDR_t*)&pMac->roam.roamSession[sessionId].selfMacAddr);
+    if (vos_status != VOS_STATUS_SUCCESS)
+    {
+        smsLog(pMac, LOGE, FL("Failed to update MAC Spoof Addr in TL"));
+        return vos_status;
+    }
+
     currChannelListInfo = &pNeighborRoamInfo->roamChannelInfo.currentChannelListInfo;
 
     if ( 
@@ -4215,7 +4223,7 @@ VOS_STATUS  csrNeighborRoamNeighborLookupDownEvent(tpAniSirGlobal pMac)
 {
     tpCsrNeighborRoamControlInfo    pNeighborRoamInfo = &pMac->roam.neighborRoamInfo;
     VOS_STATUS  vosStatus = VOS_STATUS_SUCCESS;
-    eHalStatus __maybe_unused status = eHAL_STATUS_SUCCESS;
+    eHalStatus  status = eHAL_STATUS_SUCCESS;
 
     switch (pNeighborRoamInfo->neighborRoamState)
     {

@@ -44,7 +44,6 @@
 #include "rrmApi.h"
 #endif
 #include "vos_utils.h"
-#include <disable.h>
 
 /**
  * limDeactiveMinChannelTimerDuringScan()
@@ -431,7 +430,7 @@ limCheckAndAddBssDescription(tpAniSirGlobal pMac,
            (pMac->lim.gpLimMlmScanReq->numSsid) &&
            !limIsScanRequestedSSID(pMac, &pBPR->ssId)) ||
           (!fFound && (pMac->lim.gpLimMlmScanReq &&
-                       pMac->lim.gpLimMlmScanReq->bssId != NULL) &&
+                       pMac->lim.gpLimMlmScanReq->bssId) &&
            !vos_mem_compare(bssid,
                            &pMac->lim.gpLimMlmScanReq->bssId, 6))))
     {

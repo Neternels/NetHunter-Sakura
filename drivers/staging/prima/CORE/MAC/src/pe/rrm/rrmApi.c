@@ -53,7 +53,6 @@
 #include "limSendMessages.h"
 #include "rrmGlobal.h"
 #include "rrmApi.h"
-#include <disable.h>
 
 tANI_U8
 rrmGetMinOfMaxTxPower(tpAniSirGlobal pMac,
@@ -223,7 +222,7 @@ rrmSetMaxTxPowerRsp ( tpAniSirGlobal pMac, tpSirMsgQ limMsgQ )
    {
       for (i =0;i < pMac->lim.maxBssId;i++)
       {
-         if ( pMac->lim.gpSession[i].valid == TRUE )
+         if ( (pMac->lim.gpSession[i].valid == TRUE ))
          {
             pSessionEntry = &pMac->lim.gpSession[i];
             rrmCacheMgmtTxPower ( pMac, pMaxTxParams->power, pSessionEntry );

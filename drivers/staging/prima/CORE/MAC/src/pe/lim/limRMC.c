@@ -45,7 +45,6 @@
 #include "wlan_qct_wda.h"
 #include "wlan_qct_tli.h"
 #include "limRMC.h"
-#include <disable.h>
 
 #ifdef WLAN_FEATURE_RMC
 
@@ -339,7 +338,7 @@ __limRulerMessageToString(eRmcMessageType msgType)
     }
 }
 
-static char __maybe_unused *
+static char *
 __limRulerStateToString(eRmcRulerState state)
 {
     switch (state)

@@ -43,7 +43,6 @@
 
 #ifdef WLAN_FEATURE_LFR_MBB
 #include "csr_roam_mbb.h"
-#include <disable.h>
 #endif
 
 
@@ -278,7 +277,7 @@ eHalStatus sme_FTSendUpdateKeyInd(tHalHandle hHal, tCsrRoamSetKey * pFTKeyInfo)
 
     keymaterial->key[ 0 ].keyLength = pFTKeyInfo->keyLength;
 
-    if ( pFTKeyInfo->keyLength && pFTKeyInfo->Key != NULL )
+    if ( pFTKeyInfo->keyLength && pFTKeyInfo->Key )
         vos_mem_copy(&keymaterial->key[ 0 ].key, pFTKeyInfo->Key, pFTKeyInfo->keyLength);
 
     vos_mem_copy( &pMsg->bssId[ 0 ],

@@ -58,7 +58,6 @@
 
 #ifdef FEATURE_WLAN_DIAG_SUPPORT
 #include "vos_diag_core_log.h"
-#include <disable.h>
 #endif //FEATURE_WLAN_DIAG_SUPPORT 
 
 /**
@@ -382,6 +381,16 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
                                          "Ignoring beacon!"),
                           psessionEntry->currentOperChannel, pBeacon->channelNumber);)
            goto fail;
+        }
+
+        if (psessionEntry->gLimSpecMgmt.dfs_channel_csa) {
+#ifdef WLAN_FEATURE_ROAM_SCAN_OFFLOAD
+            if (pMac->roam.configParam.isRoamOffloadScanEnabled) {
+               csrRoamOffloadScan(pMac, ROAM_SCAN_OFFLOAD_START, REASON_CONNECT);
+            }
+#endif
+           limFrameTransmissionControl(pMac, eLIM_TX_ALL, eLIM_RESUME_TX);
+           psessionEntry->gLimSpecMgmt.dfs_channel_csa = false;
         }
 
         if(RF_CHAN_14 >= psessionEntry->currentOperChannel)
