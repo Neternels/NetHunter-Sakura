@@ -1,0 +1,40 @@
+## Build Information
+```
+Kernel: NetErnels Kernel
+Type: Stable
+Device: Redmi 6 Pro
+Compiler: Proton Clang 13.0.0
+Branch: master
+Build Number: 1.0
+```
+## Changelog
+```
+-NetErnels-1.0
+* Kernel upstreamed to 265
+* Merged latest LA.UM.9.6.2.r1-04600-89xx.0 for Audio-Kernel
+* Merged latest WireGuard v1.0.20210605
+* Added hid-keyboard and wireless-firmware
+* Added RTL8814AU driver as module
+* Added RTL8812AU driver as module
+* Added RTL8712 driver as module
+* Added RTL8188EU driver as module
+* Added RTL8188EUS driver as module
+* Added Simulated MAC80211 Radio as module
+* Added SDR support
+* Added HCI0 support
+* Added Bluetooth drivers support
+* Added USB mass storage support 
+* Added other nethunter-related patches
+* all ramdisk compression methods
+* RFCOMM & RFCOMM TTY support
+* HCIUSB broadcom, realtek, atheros, intel, qualcomm. marvell
+* Mouse support
+* ADC Ladder, ADP5588/87/85/89, Atmel AT42QT1070/2160, D-LINK DIR-685 keyboards
+* Classic pc analog joysticks & gamepads, assasin 3d & madcatz panther devices, Logitech ADI digital, creative labs blaster cobra, genius flight2000, gravis grIP, guillemot, interact digital joysticks and gamepads
+* OTG support, USB 2.0/3.0 support
+* HD Audio PCI, allow dynamic codec reconf, support initialization patch loading, realtek HD-audio codec, analog device HD-audio codec, IDT/Sigmatel HD-audio codec, VIA HD-audio codec support
+* ADMtek, ath9k, ath ar9170, atmel, broadcom, VMware
+* added system v ipc
+* added realtek, ralink, broadcom, mediatek, atmel, zydas, ath9k drivers
+* enabled all cgroups and namespaces
+
