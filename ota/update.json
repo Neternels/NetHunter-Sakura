@@ -1,11 +1,11 @@
 {
   "kernel": {
     "name": "NetErnels Kernel",
-    "version": "NetErnels-1.0",
-    "link": "https://github.com/neternels/nethunter-sakura/releases/download/NetErnels-1.0/NetErnels-sakura-4.9.265-signed.zip",
+    "version": "NetErnels-2.0",
+    "link": "https://github.com/neternels/nethunter-sakura/releases/download/NetErnels-2.0/NetErnels-sakura-4.9.274-signed.zip",
     "changelog_url": "https://raw.githubusercontent.com/neternels/nethunter-sakura/dumaloo-release-freq/ota/changelog",
-    "date": "2021-06-16",
-    "sha1": "525ba58de14c6f54e6ab176071064123155d89f4"
+    "date": "2021-07-11",
+    "sha1": "4a40fcccbbe8eb2f9a2ca34556a12abe30cd6b49"
   },
   "support": {
     "link": "https://t.me/neternels_chat"
